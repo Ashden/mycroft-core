@@ -33,6 +33,7 @@ function help() {
     echo "  bus                      the messagebus service"
     echo "  skills                   the skill service"
     echo "  voice                    voice capture service"
+    echo "  discord                  discord service"
     # echo "  wifi                     wifi setup service"
     echo "  enclosure                mark_1 enclosure service"
     echo
@@ -70,6 +71,7 @@ function name-to-script-path() {
         "audiotest")         _module="mycroft.util.audio_test" ;;
         "wakewordtest")      _module="test.wake_word" ;;
         "enclosure")         _module="mycroft.client.enclosure" ;;
+        "discord")           _module="mycroft.discord" ;;
 
         *)
             echo "Error: Unknown name '${1}'"
@@ -148,6 +150,7 @@ function launch-all() {
     launch-background audio
     launch-background voice
     launch-background enclosure
+    launch-background discord
 }
 
 function check-dependencies() {
@@ -207,6 +210,9 @@ case ${_opt} in
         launch-background ${_opt}
         ;;
     "voice")
+        launch-background ${_opt}
+        ;;
+    "discord")
         launch-background ${_opt}
         ;;
 
