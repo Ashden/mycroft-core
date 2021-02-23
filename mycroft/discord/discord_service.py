@@ -63,17 +63,24 @@ async def on_message(message):
     if f'<@!{client.user.id}>' == message_split[0]:
         # Handle mention of bot without any utterance
         if len(message_split) == 1:
-            await message.channel.send(f'{message.author.name}, did you need something?')
-            bus.emit(Message('speak', data={'utterance': f'{message.author.name}, did you need something?',
+            await message.channel.send(f'{message.author.name}, did you need \
+                something?')
+            bus.emit(Message('speak', data={'utterance':
+                             f'{message.author.name}, did you need something?',
                                             'listen': False}))
         else:
-            bus.emit(Message('recognizer_loop:utterance', {"utterances": [command]},
+            bus.emit(Message('recognizer_loop:utterance', {"utterances":
+                             [command]},
                              {"discord_message_id": message.id}))
 
 
 def handle_speak(event):
     if event.context is not None and 'discord_message_id' in event.context:
         utterance = event.data.get('utterance')
-        cached_message = discord.utils.get(client.cached_messages, id=event.context['discord_message_id'])
-        send_msg = asyncio.run_coroutine_threadsafe(cached_message.channel.send(utterance), client.loop)
+        cached_message = discord.utils.get(
+            client.cached_messages,
+            id=event.context['discord_message_id'])
+        send_msg = asyncio.run_coroutine_threadsafe(
+            cached_message.channel.send(utterance),
+            client.loop)
         send_msg.result()
