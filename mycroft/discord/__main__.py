@@ -1,11 +1,11 @@
 from mycroft.util.log import LOG
 from mycroft.util import (
-    check_for_signal,
+    # check_for_signal,
     reset_sigint_handler,
     start_message_bus_client,
     wait_for_exit_signal
 )
-import mycroft.discord.discordservice as discordservice
+import mycroft.discord.discord_service as discord_service
 from mycroft.util.process_utils import ProcessStatus, StatusCallbackMap
 
 
@@ -32,7 +32,7 @@ def main(ready_hook=on_ready, error_hook=on_error, stopping_hook=on_stopping):
                                       on_stopping=stopping_hook)
         status = ProcessStatus('discord', bus, callbacks)
 
-        discordservice.init(bus)
+        discord_service.init(bus)
         status.set_started()
     except Exception as e:
         status.set_error(e)
